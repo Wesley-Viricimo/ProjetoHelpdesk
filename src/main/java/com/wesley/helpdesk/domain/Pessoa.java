@@ -1,24 +1,52 @@
 package com.wesley.helpdesk.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Generated;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GeneratorType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wesley.helpdesk.domain.enums.Perfil;
 
 //Classe abstrata significa que não poderá ser criadas instâncias dessa classe.
-public abstract class Pessoa {
+@Entity(name = "T_PESSOA")  //Informando ao JPA que a classe pessoa é uma entidade e deverá ser ciada uma tabela para ela no banco de dados
+public abstract class Pessoa implements Serializable {
 	
+	//Serializable serve para que seja criada uma sequência de bites das instâncias dessa classe para que possam ser trafegadas em rede
+	private static final long serialVersionUID = 1L;
 	//Atributos protegidos que só poderão ser visualizados dentro do pacote domain
 	
+	@Id //Definindo que o atributo ID é uma chave primária
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //Definindo que a geração deste id será do tipo identity(pelo próprio banco)
 	protected Integer id;
 	protected String nome;
+	
+	@Column(unique = true) //Definindo que não pode existir dois registros iguais no campo CPF
 	protected String cpf;
+	
+	@Column(unique = true) //Definindo que não pode existir dois registros iguais no campo Email
 	protected String email;
 	protected String senha;
+	
+	@ElementCollection(fetch = FetchType.EAGER)//Informando que essa é uma coleção de elementos do tipo integer e que deve ser retornado quando um usuario for chamado
+	@CollectionTable(name = "T_PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();//Atributo perfil será uma lista, pois um técnico também poderá ser um cliente
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")//Definindo o padrão de data que será salvo no banco de dados
 	protected LocalDate dataCriacao = LocalDate.now();//Método pega a data atual onde a intância do objeto foi criada
 	
 	//Construtor da super classe, sem os parâmetros para criar um objeto da classe sem atribuir valor a ele
