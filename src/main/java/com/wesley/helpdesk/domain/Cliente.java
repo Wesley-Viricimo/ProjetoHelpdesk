@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 
 import com.wesley.helpdesk.domain.enums.Perfil;
 
-@Entity(name = "T_CLIENTE")
+@Entity(name="T_CLIENTE")
 public class Cliente extends Pessoa {
 	
 	private static final long serialVersionUID = 1L;

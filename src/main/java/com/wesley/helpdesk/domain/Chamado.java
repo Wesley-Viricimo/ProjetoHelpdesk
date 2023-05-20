@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +33,10 @@ public class Chamado implements Serializable{
 	
 	private Prioridade prioridade;
 	private Status status;
+	
+	@Column(length = 80)
 	private String titulo;
+	
 	private String observacoes;
 	
 	//Todo chamado precisa ter um cliente e um técnico atribuido a ele
