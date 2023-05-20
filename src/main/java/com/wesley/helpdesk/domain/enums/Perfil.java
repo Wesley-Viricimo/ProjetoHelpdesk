@@ -21,14 +21,15 @@ public enum Perfil {
 		return descricao;
 	}
 	
+	//Método irá verificar se o perfil informado existe e se existir irá retornar
 	public static Perfil toEnum(Integer cod) {
 		if(cod == null) {
 			return null;
 		}
 		
-		for(Perfil x : Perfil.values()) {
-			if(cod.equals(x.getCodigo())) {
-				return x;
+		for(Perfil perfil : Perfil.values()) {
+			if(cod.equals(perfil.getCodigo())) {
+				return perfil;
 			}
 		}
 		
