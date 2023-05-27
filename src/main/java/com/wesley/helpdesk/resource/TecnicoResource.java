@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wesley.helpdesk.domain.Tecnico;
+import com.wesley.helpdesk.domain.dtos.TecnicoDTO;
 import com.wesley.helpdesk.services.TecnicoService;
 
 @RestController //Definindo que a classe será um controlador rest para realizar requisições
@@ -18,11 +19,11 @@ public class TecnicoResource {
 	private TecnicoService service;
 	
 	@GetMapping(value = "/{id}")//Informando que estou recebendo uma variável de path
-	public ResponseEntity<Tecnico> findById(@PathVariable Integer id) { //Response entity significa que queremos representar toda a resposta http, sendo possível controlar qualquer coisa envolvendo a requisição
+	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) { //Response entity significa que queremos representar toda a resposta http, sendo possível controlar qualquer coisa envolvendo a requisição
 		
 		Tecnico obj = service.findById(id);
 		
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(new TecnicoDTO(obj));
 	}
 	
 }
