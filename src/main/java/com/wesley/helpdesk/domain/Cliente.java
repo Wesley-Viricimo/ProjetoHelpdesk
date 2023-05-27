@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wesley.helpdesk.domain.enums.Perfil;
 
 @Entity(name="T_CLIENTE")
@@ -14,6 +15,7 @@ public class Cliente extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	
 	//Clientes e tecnicos poderão possuir uma lista de chamados
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente") //Definindo que um cliente poderá ter vários chamados(1 para muitos) e está mapeado no atributo cliente
 	private List<Chamado> chamados = new ArrayList<>();
 
