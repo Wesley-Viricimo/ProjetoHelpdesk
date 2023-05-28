@@ -1,5 +1,8 @@
 package com.wesley.helpdesk.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wesley.helpdesk.domain.Tecnico;
 import com.wesley.helpdesk.domain.dtos.TecnicoDTO;
 import com.wesley.helpdesk.services.TecnicoService;
+
 
 @RestController //Definindo que a classe será um controlador rest para realizar requisições
 @RequestMapping(value = "/tecnicos")
@@ -26,4 +30,10 @@ public class TecnicoResource {
 		return ResponseEntity.ok().body(new TecnicoDTO(obj));//Método retorna um DTO ou DATA ACESS OBJECT que é considerada uma boa prática de programação
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<TecnicoDTO>> findAll(){
+		List<Tecnico> list = service.findAll();
+		List<TecnicoDTO> listDTO = list.stream().map(obj -> new TecnicoDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 }
