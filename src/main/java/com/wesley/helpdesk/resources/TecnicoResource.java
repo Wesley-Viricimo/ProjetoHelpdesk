@@ -1,4 +1,4 @@
-package com.wesley.helpdesk.resource;
+package com.wesley.helpdesk.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ public class TecnicoResource {
 	@GetMapping(value = "/{id}")//Informando que estou recebendo uma variável de path
 	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) { //Response entity significa que queremos representar toda a resposta http, sendo possível controlar qualquer coisa envolvendo a requisição
 		
-		Tecnico obj = service.findById(id);
+		Tecnico obj = service.findById(id);//Encontrando técnico pelo Id
 		
-		return ResponseEntity.ok().body(new TecnicoDTO(obj));
+		return ResponseEntity.ok().body(new TecnicoDTO(obj));//Método retorna um DTO ou DATA ACESS OBJECT que é considerada uma boa prática de programação
 	}
 	
 }
