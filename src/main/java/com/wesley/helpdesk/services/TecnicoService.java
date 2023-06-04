@@ -3,6 +3,8 @@ package com.wesley.helpdesk.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,14 @@ public class TecnicoService {
 		Tecnico newObj = new Tecnico(objDTO);
 		return repository.save(newObj);
 	}
+	
+	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+		objDTO.setId(id);
+		Tecnico oldObj = findById(id);//Buscar o id que foi informado na rota, e se não existir lançará a exceção já criada
+		validaPorCpfEEmail(objDTO);//Validar se o CPF ou Email que estão sendo informados já existem
+		oldObj = new Tecnico(objDTO);//Se não existir, criar um novo objeto com as novas informações que foram passadas
+		return repository.save(oldObj);//Salvar estas novas informações
+	}
 
 	private void validaPorCpfEEmail(TecnicoDTO objDTO) {
 		Optional<Pessoa> obj = pessoarepository.findByCpf(objDTO.getCpf());//Realizando busca por cpf já cadastrado
@@ -51,5 +61,6 @@ public class TecnicoService {
 			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema: " + objDTO.getEmail());
 		}
 	}
+
 	
 }

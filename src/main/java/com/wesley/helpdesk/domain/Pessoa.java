@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Generated;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -16,8 +15,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 
-import org.hibernate.annotations.GeneratorType;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wesley.helpdesk.domain.enums.Perfil;
@@ -37,10 +37,12 @@ public abstract class Pessoa implements Serializable {
 	@Column(length = 80)
 	protected String nome;
 	
-	@Column(unique = true, length = 11) //Definindo que não pode existir dois registros iguais no campo CPF
+	@CPF
+	@Column(unique = true, length = 15) //Definindo que não pode existir dois registros iguais no campo CPF
 	protected String cpf;
 	
 	@Column(unique = true, length = 80) //Definindo que não pode existir dois registros iguais no campo Email
+	@Email
 	protected String email;
 	
 	@Column(length = 30)
