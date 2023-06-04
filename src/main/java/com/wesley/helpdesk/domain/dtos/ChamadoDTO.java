@@ -3,6 +3,8 @@ package com.wesley.helpdesk.domain.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wesley.helpdesk.domain.Chamado;
 
@@ -14,11 +16,17 @@ public class ChamadoDTO implements Serializable{
 	private LocalDate dataAbertura = LocalDate.now();
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataFechamento = LocalDate.now();
+	@NotNull(message = "O campo PRIORIDADE é requerido")
 	private Integer prioridade; //Quando for realizar a busca por prioridade retornar apenas o id da prioridade
+	@NotNull(message = "O campo STATUS é requerido")
 	private Integer status; //Quando for realizar a busca por status retornar apenas o id do status
+	@NotNull(message = "O campo TÍTULO é requerido")
 	private String titulo;	
+	@NotNull(message = "O campo OBSERVAÇÕES é requerido")
 	private String observacoes;
+	@NotNull(message = "O campo TÉCNICO é requerido")
 	private Integer tecnico; //Quando for realizar a busca por tecnico retornar apenas o id do tecnico
+	@NotNull(message = "O campo CLIENTE é requerido")
 	private Integer cliente; //Quando for realizar a busca por cliente retornar apenas o id do cliente
 	private String nomeTecnico;
 	private String nomeCliente;
