@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,5 +57,11 @@ public class TecnicoResource {
 	public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDTO){//Como estou recebendo uma variável de path tenho que adicionar o tipo da variável, e com a anotação valid eu valido se todos os campos serão preenchidos no update e com a anotação requestBody eu recebo as informações atualizadas do técnico
 		Tecnico oldObj = service.update(id, objDTO);
 		return ResponseEntity.ok().body(new TecnicoDTO(oldObj));
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }

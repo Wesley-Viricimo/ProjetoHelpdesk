@@ -49,6 +49,15 @@ public class TecnicoService {
 		oldObj = new Tecnico(objDTO);//Se não existir, criar um novo objeto com as novas informações que foram passadas
 		return repository.save(oldObj);//Salvar estas novas informações
 	}
+	
+	public void delete(Integer id) {
+		Tecnico obj = findById(id);//Buscar técnico pelo id informado
+		if(obj.getChamados().size() > 0) { //Se o técnico possuir um algum chamado o mesmo não será deletado
+			throw new DataIntegrityViolationException("O técnico possui ordens de serviço e não pode ser deletado!!");
+		} 
+		
+		repository.deleteById(id);
+	}
 
 	private void validaPorCpfEEmail(TecnicoDTO objDTO) {
 		Optional<Pessoa> obj = pessoarepository.findByCpf(objDTO.getCpf());//Realizando busca por cpf já cadastrado
@@ -61,6 +70,5 @@ public class TecnicoService {
 			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema: " + objDTO.getEmail());
 		}
 	}
-
 	
 }
