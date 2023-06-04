@@ -1,5 +1,6 @@
 package com.wesley.helpdesk.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,13 @@ public class ChamadoService {
 		return repository.save(newChamado(objDTO));
 	}
 	
+	public Chamado update(Integer id, @Valid ChamadoDTO objDTO) {
+		objDTO.setId(id);
+		Chamado oldObj = findById(id);
+		oldObj = newChamado(objDTO);
+		return repository.save(oldObj);
+	}
+	
 	private Chamado newChamado(ChamadoDTO obj) { //Método que irá disparar uma exceção, caso o chamado possuir algum técnico ou algum cliente que não exista
 		Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
 		Cliente cliente = clienteService.findById(obj.getCliente());
@@ -47,6 +55,12 @@ public class ChamadoService {
 		Chamado chamado = new Chamado();
 		if(obj.getId() != null) { //Se o id do chamado for diferente de nulo significa que se trata de uma atualização do chamado
 			chamado.setId(obj.getId());
+		}
+		
+		if(obj.getStatus().equals(2)) { //Se o chamado for um chamado encerrado irá ser setada a data atual
+			chamado.setDataFechamento(LocalDate.now());
+		} else {
+			chamado.setDataFechamento(null);
 		}
 		
 		chamado.setTecnico(tecnico);
