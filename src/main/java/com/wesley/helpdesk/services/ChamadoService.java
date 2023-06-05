@@ -59,8 +59,6 @@ public class ChamadoService {
 		
 		if(obj.getStatus().equals(2)) { //Se o chamado for um chamado encerrado irá ser setada a data atual
 			chamado.setDataFechamento(LocalDate.now());
-		} else {
-			chamado.setDataFechamento(null);
 		}
 		
 		chamado.setTecnico(tecnico);
