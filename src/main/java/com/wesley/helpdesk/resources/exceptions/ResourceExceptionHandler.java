@@ -1,6 +1,7 @@
 package com.wesley.helpdesk.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,26 @@ public class ResourceExceptionHandler {
 		}
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<StandardError> validationCpfEmailError(ConstraintViolationException ex, HttpServletRequest request){
+
+		boolean isValidaCPF = ex.getMessage().contains("CPF");
+		boolean isValidaEmail = ex.getMessage().contains("e-mail");
+		
+		StandardError error = null;
+
+		if(isValidaCPF && isValidaEmail) {
+			 error = new StandardError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Validation Error", "Número do registro de contribuinte individual brasileiro (CPF) inválido! : Endereço de E-Mail mal formado!", request.getRequestURI());
+		} else if (isValidaCPF && !isValidaEmail) {
+			 error = new StandardError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erro na validação de CPF", "Número do registro de contribuinte individual brasileiro (CPF) inválido!", request.getRequestURI());
+		} else if (!isValidaCPF && isValidaEmail){
+			 error = new StandardError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erro na validação de E-Mail", "Endereço de E-Mail mal formado!", request.getRequestURI());
+		} else {
+			error = new StandardError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Validation Error", ex.getMessage(), request.getRequestURI());
+		}
+		
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
 	}
 }
