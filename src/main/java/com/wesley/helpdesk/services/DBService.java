@@ -3,6 +3,7 @@ package com.wesley.helpdesk.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wesley.helpdesk.domain.Chamado;
@@ -26,18 +27,21 @@ public class DBService {
 		@Autowired
 		private ChamadoRepository chamadoRepository;
 		
+		@Autowired
+		private BCryptPasswordEncoder encoder;
+		
 
 	public void instanciaDB() {
-		Tecnico tec1 = new Tecnico(null, "Wesley Viricimo", "459.410.608-07", "wesley@teste1.com", "123");
+		Tecnico tec1 = new Tecnico(null, "Wesley Viricimo", "459.410.608-07", "wesley@teste1.com", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
-		Tecnico tec2 = new Tecnico(null, "Jessica Viricimo", "573.533.610-00", "jessica@teste1.com", "123");
+		Tecnico tec2 = new Tecnico(null, "Jessica Viricimo", "573.533.610-00", "jessica@teste1.com", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
-		Tecnico tec3 = new Tecnico(null, "Ana Jullia Viricimo", "689.964.080-50", "julia@teste1.com", "123");
+		Tecnico tec3 = new Tecnico(null, "Ana Jullia Viricimo", "689.964.080-50", "julia@teste1.com", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
 		
-		Cliente cli1 = new Cliente(null, "Sidineia Viricimo", "087.290.830-52", "sidineia@teste1.com", "123");
-		Cliente cli2 = new Cliente(null, "Sheila Viricimo", "783.429.940-90", "Sheila@teste1.com", "123");
-		Cliente cli3 = new Cliente(null, "Alessandra Amazonas", "896.208.390-64", "alessandra@teste1.com", "123");
+		Cliente cli1 = new Cliente(null, "Sidineia Viricimo", "087.290.830-52", "sidineia@teste1.com", encoder.encode("123"));
+		Cliente cli2 = new Cliente(null, "Sheila Viricimo", "783.429.940-90", "Sheila@teste1.com", encoder.encode("123"));
+		Cliente cli3 = new Cliente(null, "Alessandra Amazonas", "896.208.390-64", "alessandra@teste1.com", encoder.encode("123"));
 		
 		Chamado c1 = new Chamado(null, Prioridade.ALTA, Status.ANDAMENTO, "Chamado 01", "Primeiro Chamado", tec1, cli1);
 		Chamado c2 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Chamado 02", "Segundo Chamado", tec2, cli2);

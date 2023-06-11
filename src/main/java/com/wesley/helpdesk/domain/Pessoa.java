@@ -45,7 +45,7 @@ public abstract class Pessoa implements Serializable {
 	@Email
 	protected String email;
 	
-	@Column(length = 30)
+	@Column(length = 100)
 	protected String senha;
 	
 	@ElementCollection(fetch = FetchType.EAGER)//Informando que essa é uma coleção de elementos do tipo integer e que deve ser retornado quando um usuario for chamado
