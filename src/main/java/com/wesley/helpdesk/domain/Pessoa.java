@@ -58,7 +58,6 @@ public abstract class Pessoa implements Serializable {
 	//Construtor da super classe, sem os parâmetros para criar um objeto da classe sem atribuir valor a ele
 	public Pessoa() {
 		super();
-		addPerfil(Perfil.CLIENTE);//Se for criado um novo cliente ou tecnico será atribuido ao perfil de cliente
 	}
 	
 	//Construtor que receberá os parâmetros;
@@ -69,7 +68,6 @@ public abstract class Pessoa implements Serializable {
 		this.cpf = cpf;
 		this.email = email;
 		this.senha = senha;
-		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Integer getId() {
