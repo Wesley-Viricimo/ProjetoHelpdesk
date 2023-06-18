@@ -35,9 +35,9 @@ public class DBService {
 		Tecnico tec1 = new Tecnico(null, "Wesley Viricimo", "459.410.608-07", "wesley@teste1.com", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
 		Tecnico tec2 = new Tecnico(null, "Jessica Viricimo", "573.533.610-00", "jessica@teste1.com", encoder.encode("123"));
-		tec1.addPerfil(Perfil.ADMIN);
+		//tec2.addPerfil(Perfil.ADMIN);
 		Tecnico tec3 = new Tecnico(null, "Ana Jullia Viricimo", "689.964.080-50", "julia@teste1.com", encoder.encode("123"));
-		tec1.addPerfil(Perfil.ADMIN);
+		tec3.addPerfil(Perfil.ADMIN);
 		
 		Cliente cli1 = new Cliente(null, "Sidineia Viricimo", "087.290.830-52", "sidineia@teste1.com", encoder.encode("123"));
 		Cliente cli2 = new Cliente(null, "Sheila Viricimo", "783.429.940-90", "Sheila@teste1.com", encoder.encode("123"));

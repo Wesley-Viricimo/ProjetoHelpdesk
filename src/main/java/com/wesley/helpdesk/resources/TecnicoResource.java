@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class TecnicoResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	
+	@PreAuthorize("hasAnyRole('ADMIN')")//Indicando que qualquer usuário que tenha a role (função) admin, pode acessar a rota para criar um tecnico 
 	@PostMapping
 	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDTO){ //Anotação valid irá identificar que as propriedades do objeto TecnicoDTO recebido como parâmetro possui validações e anotação request body define que o corpo da requisição é um tecnico DTO
 		Tecnico newObj = service.create(objDTO);
@@ -53,12 +54,14 @@ public class TecnicoResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")//Indicando que qualquer usuário que tenha a role (função) admin, pode acessar a rota para atualizar um tecnico 
 	@PutMapping(value = "/{id}")//Id deverá ser informado na rota quando usuário for atualizar um técnico o que também significa que está sendo recebida uma variável de path(caminho)
 	public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDTO){//Como estou recebendo uma variável de path tenho que adicionar o tipo da variável, e com a anotação valid eu valido se todos os campos serão preenchidos no update e com a anotação requestBody eu recebo as informações atualizadas do técnico
 		Tecnico oldObj = service.update(id, objDTO);
 		return ResponseEntity.ok().body(new TecnicoDTO(oldObj));
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")//Indicando que qualquer usuário que tenha a role (função) admin, pode acessar a rota para atualizar um tecnico 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id){
 		service.delete(id);

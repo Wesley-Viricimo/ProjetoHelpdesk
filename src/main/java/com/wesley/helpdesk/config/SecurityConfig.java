@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,9 +18,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.wesley.helpdesk.security.JWTAuthenticationFilter;
+import com.wesley.helpdesk.security.JWTAuthorizationFilter;
 import com.wesley.helpdesk.security.JWTUtil;
 
 @EnableWebSecurity //Anotação já possui a anotação configuration, sendo assim não é necessário que seja adicionada
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	private static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
@@ -38,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 }
 		 
 		 http.cors().and().csrf().disable();//Indicando que possuo uma configuração de cors e desabilitando proteção contra ataque csrf (cross site request for get) que é um ataque baseado em armazenamento em sessões de usuário
-		 http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));//Adicionando filtro criado
+		 http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));//Adicionando filtro criado nas configurações
+		 http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));//Adicionando filtro criado nas configurações
 		 http.authorizeRequests() //Autorizando requisições
 		 .antMatchers(PUBLIC_MATCHERS).permitAll()//Permitir tudo o que vier da variável
 		 .anyRequest().authenticated();//Para qualquer outra requisição, precisa estar autenticado
